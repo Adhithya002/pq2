@@ -1,0 +1,46 @@
+703. Kth Largest Element in a Stream
+
+
+Design a class to find the kth largest element in a stream. Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+
+class KthLargest {
+  private PriorityQueue<Integer> heap = new PriorityQueue<>();
+  private int k;
+
+  public KthLargest(int k, int[] nums) {
+    this.k = k;
+    for (var n : nums) add(n);
+  }
+  
+  public int add(int val) {
+    heap.offer(val);
+    if (heap.size() > k) heap.poll();
+    return heap.peek();
+  }
+}
+
+295. Find Median from Data Stream
+
+
+The median is the middle value in an ordered integer list. If the size of the list is even, there is no middle value, and the median is the mean of the two middle values.
+
+class MedianFinder {
+    // max queue is always larger or equal to min queue
+    PriorityQueue<Integer> min = new PriorityQueue();
+    PriorityQueue<Integer> max = new PriorityQueue(1000, Collections.reverseOrder());
+    // Adds a number into the data structure.
+    public void addNum(int num) {
+        max.offer(num);
+        min.offer(max.poll());
+        if (max.size() < min.size()){
+            max.offer(min.poll());
+        }
+    }
+
+    // Returns the median of current data stream
+    public double findMedian() {
+        if (max.size() == min.size()) return (max.peek() + min.peek()) /  2.0;
+        else return max.peek();
+    }
+};
